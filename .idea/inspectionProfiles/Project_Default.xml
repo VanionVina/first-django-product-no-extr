@@ -1,0 +1,26 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E231" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="mainapp.models.User.objects" />
+          <option value="mainapp.models.Post.objects" />
+          <option value="mainapp.tests.model.TestTest.*" />
+          <option value="mainapp.models.Customer.objects" />
+          <option value="mainapp.models.Category.objects" />
+          <option value="mainapp.models.CartProduct.objects" />
+          <option value="mainapp.models.Cart.objects" />
+          <option value="mainapp.models.Cart.id" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

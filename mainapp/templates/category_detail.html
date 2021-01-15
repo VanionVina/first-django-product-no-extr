@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+{% block content %}
+
+{% include 'categorys_left.html' %}
+
+<h1>{{ self_category.name }}</h1>
+
+    <div class="col-md-9">
+        <div class="row product-list">
+            {% for product in products %}
+            <div class="col-md-4">
+                <section class="panel">
+                    <div>
+                        <a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url }}" /></a>
+                        <!-- <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a> -->
+                    </div>
+
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="{{ product.get_absolute_url }}" class="pro-title">
+                                {{ product.name }}
+                            </a>
+                        </h4>
+                        <p class="price">{{ product.price }}$</p>
+                    </div>
+                </section>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+{% endblock content %}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <!--  This file has been downloaded from bootdey.com    @bootdey on twitter -->
+    <!--  All snippets are MIT license http://bootdey.com/license -->
+    <title>Test test com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'for_index.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <nav class="navbar-static-top  navbar-inverse mb-2">
+        <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'index' %}">Change this</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+            <li><a href='{% url "user_profile" %}'>{{ user.username }}</a></li>
+                <li><a href='{% url 'logout' %}'>Logout</a></li>
+                <li><a href='{% url "cart_detail" %}'>
+                    Cart <span class='badge'>{{ cart.final_amount }}</span>
+                </a></li>
+            {% else %}
+                <li><a href='{% url "login" %}'>Log in</a></li>
+                <li><a href='{% url "registration" %}'>Sign in</a></li>
+            {% endif %}
+            </ul>
+        </div>
+        </div>
+    </nav>    
+    <br>
+
+    <div class="container bootdey">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+    <div class="col-md-3">
+        <section class="panel">
+            <header class="panel-heading">
+                Category's
+            </header>
+            <div class="panel-body">
+                <ul class="nav prod-cat">
+                    {% for category in g_categorys %}
+                    <li>
+                        <a href="{{ category.get_absolute_url }}"><i class="fa fa-angle-right"></i> {{ category.name }}</a>
+                        {% for sub_category in category.get_relevant_categorys %}
+                            <ul class="nav">
+                                <li><a href="{{ sub_category.get_absolute_url }}">{{ sub_category.name }}</a></li>
+                            </ul>
+                        {% endfor %}
+
+                    </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+        </section>
+   </div>
+

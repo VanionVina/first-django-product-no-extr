@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+
+        {% block content %}
+        {% include 'categorys_left.html' %}
+
+    <div class="col-md-9">
+            <!-- <section class="panel">
+                <div class="panel-body">
+                    <div class="pull-right">
+                        <ul class="pagination pagination-sm pro-page-list">
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">»</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section> -->
+
+        <div>
+            <h1 style='font-size: 50px;' class='panel-body text-center'>Latest products</h1>
+        </div>
+        <div class="row product-list">
+            {% for product in products %}
+            <div class="col-md-4">
+                <section class="panel">
+                    <div>
+                        <a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url }}" /></a>
+                        <!-- <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a> -->
+                    </div>
+
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="{{ product.get_absolute_url }}" class="pro-title">
+                                {{ product.name }}
+                            </a>
+                        </h4>
+                        <p class="price">{{ product.price }}$</p>
+                    </div>
+                </section>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+        {% endblock %}

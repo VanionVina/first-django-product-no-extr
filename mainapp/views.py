@@ -4,9 +4,10 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import View
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 
-from .forms import Registration, OrderForm
+from .forms import LoginForm, Registration, OrderForm
 from .mixins import GetCategorysMixin, GetCurtMixin
 from .models import Category, GlobalCategory, Customer, CartProduct, Order, Product
 from .logic import get_products, cart_logic
@@ -68,6 +69,28 @@ class CategoryDetail(GetCurtMixin, GetCategorysMixin, View):
         return render(request, 'category_detail.html', context)
 
 
+class LoginView(View):
+
+    def get(self, request):
+        form = LoginForm
+        context = {
+            'form': form,
+        }
+        return render(request, 'registration/login.html', context)
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user:
+                login(request, user)
+                return HttpResponseRedirect(reverse('index'))
+        return render(request, 'registration/login.html', context={'form': form})
+
+            
+
 class RegistrationView(View):
 
     def get(self, request):
@@ -80,14 +103,10 @@ class RegistrationView(View):
     def post(self, request):
         form = Registration(request.POST)
         if form.is_valid():
-            username = request.POST.get('username')
-            user_name_is_used = User.objects.filter(username=username).first()
-            if user_name_is_used:
-                messages.add_message(request, messages.INFO, 'This username is taken')
-                return render(request, 'registration//registration.html', context={'form': form})
-            password = request.POST.get('password')
-            phone = request.POST.get('phone')
-            address = request.POST.get('address')
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            phone = form.cleaned_data['phone']
+            address = form.cleaned_data['address']
             user = User.objects.create(username=username)
             user.set_password(password)
             user.customer.phone = phone
@@ -95,17 +114,17 @@ class RegistrationView(View):
             user.save()
             messages.add_message(request, messages.INFO, 'Succefully register, now log in')
             return HttpResponseRedirect(reverse('login'))
+        return render(request, 'registration/registration.html', context={'form': form})
 
 
 class AddToCart(GetCurtMixin, View):
 
-    def get(self, request, product_slug, category_slug):
+    def get(self, request, product_slug):
         if not request.user.is_authenticated:
             messages.add_message(request, messages.INFO, 'Log in to do this')
             return HttpResponseRedirect(reverse('login'))
         user = User.objects.get(username=request.user.username)
         customer = Customer.objects.get(user=user)
-        category = Category.objects.get(slug=category_slug)
         product = Product.objects.get(slug=product_slug)
         cart_product, created = CartProduct.objects.get_or_create(
             user=customer, to_cart=self.cart, product=product,

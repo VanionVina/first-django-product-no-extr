@@ -209,3 +209,13 @@ class OrderView(GetCurtMixin, View):
             self.cart.ordered = True
             self.cart.save()
             return HttpResponseRedirect(reverse('user_profile'))
+
+class CartOrderedView(GetCurtMixin, View):
+
+    def get(self, request, order_id):
+        order = Order.objects.get(id=order_id)
+        context = {
+            'cart': self.cart,
+            'order': order,
+        }
+        return render(request, 'order_view.html', context)

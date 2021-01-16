@@ -76,7 +76,7 @@ class Product(models.Model):
         super(Product, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.slug
+        return f' {self.slug} | Category: {self.category.name}'
 
 
 class Customer(models.Model):
@@ -128,12 +128,12 @@ class CartProduct(models.Model):
                                       max_digits=100, decimal_places=2)
 
     def __str__(self):
-        return f'Cart product: {self.product_slug} | For cart: {self.to_cart.id}'
+        return f'Cart product: {self.product.name} | For cart: {self.to_cart.id}'
 
 
 class Order(models.Model):
     STATUS_CHOICES = (
-        ('new', 'MNew'),
+        ('new', 'Awaiting Receipt'),
         ('confirmed', 'Confirmed'),
         ('delivered', 'Delivered')
     )
@@ -145,5 +145,8 @@ class Order(models.Model):
     created = models.DateTimeField(auto_created=True, auto_now=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='new')
 
+    def get_absolute_url(self):
+        return reverse('order_view', kwargs={'order_id': self.id})
+    
     def __str__(self):
         return f'Order to cart: {self.cart.id}'

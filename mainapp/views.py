@@ -89,7 +89,6 @@ class LoginView(View):
                 return HttpResponseRedirect(reverse('index'))
         return render(request, 'registration/login.html', context={'form': form})
 
-            
 
 class RegistrationView(View):
 
@@ -219,3 +218,12 @@ class CartOrderedView(GetCurtMixin, View):
             'order': order,
         }
         return render(request, 'order_view.html', context)
+
+
+class CreateNewView(GetCurtMixin, View):
+
+    def get(self, request):
+        context = {
+            "cart": self.cart,
+        }
+        return render(request, "create_new.html", context)

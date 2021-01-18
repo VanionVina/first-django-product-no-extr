@@ -14,6 +14,7 @@ from .views import (
     OrderView,
     LoginView,
     CartOrderedView,
+    CreateNewView,
     )
 
 
@@ -31,5 +32,6 @@ urlpatterns = [
     path('change-amount/<str:cart_product_id>/', ChangeCartProductAmount.as_view(), name='change_amount'),
     path('user-profile/', UserProfile.as_view(), name='user_profile'),
     path('create-order/', OrderView.as_view(), name='create_order'),
-    path('order-detail/<str:order_id>/', CartOrderedView.as_view(), name='order_view')
+    path('order-detail/<str:order_id>/', CartOrderedView.as_view(), name='order_view'),
+    path('create-new/', CreateNewView.as_view(), name='create_new'),
 ]

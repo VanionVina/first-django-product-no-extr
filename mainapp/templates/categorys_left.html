@@ -5,6 +5,11 @@
             </header>
             <div class="panel-body">
                 <ul class="nav prod-cat">
+                    <li>
+                            <a href="{% url 'create_new' %}"" class="fa fa-angle-right"> + Add new</a>
+                    </li>
+                </ul>
+                <ul class="nav prod-cat">
                     {% for category in g_categorys %}
                     <li>
                         <a href="{{ category.get_absolute_url }}"><i class="fa fa-angle-right"></i> {{ category.name }}</a>

@@ -14,12 +14,12 @@ def get_objects_for_category(category_slug):
     return products
 
 
-def get_product(category_slug, product_slug):
-    category = Category.objects.get(slug=category_slug)
-    products = get_objects_for_category(category.slug)
-    for product in products:
-        if product.slug == product_slug:
-            return product
+#def get_product(category_slug, product_slug):
+ #   category = Category.objects.get(slug=category_slug)
+ #   products = get_objects_for_category(category.slug)
+ #   for product in products:
+ #       if product.slug == product_slug:
+ #           return product
 
 
 def get_all_products():
@@ -43,15 +43,15 @@ def get_categorys_for_global_category(g_category_slug):
             return line
 
 
-def get_product_specif(category_slug, product_slug):
-    product = get_product(category_slug, product_slug)
-    fields = model_to_dict(product)
-    banlist = ["id", "name", "slug", "category",
-            "image", "price", "description"]
-    final = {}
-    for key, value in fields.items():
-        if key  not in banlist and value != None:
-            ver_name = product._meta.get_field(key).verbose_name
-            final[ver_name] = value
-    return final
+#def get_product_specif(category_slug, product_slug):
+ #   product = get_product(category_slug, product_slug)
+ #   fields = model_to_dict(product)
+ #   banlist = ["id", "name", "slug", "category",
+ #           "image", "price", "description"]
+ #   final = {}
+ #   for key, value in fields.items():
+ #       if key  not in banlist and value != None:
+ #           ver_name = product._meta.get_field(key).verbose_name
+ #           final[ver_name] = value
+ #   return final
 

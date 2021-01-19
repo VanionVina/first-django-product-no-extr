@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 
-from .forms import LoginForm, Registration, OrderForm
+from .forms import LoginForm, Registration, OrderForm, AddGCatForm, AddCatForm
 from .mixins import GetCategorysMixin, GetCurtMixin
 from .models import Category, GlobalCategory, Customer, CartProduct, Order, Product
 from .logic import get_products, cart_logic
@@ -43,9 +43,10 @@ class GlobalCategoryDetail(GetCurtMixin, GetCategorysMixin, View):
         very_g_category = GlobalCategory.objects.get(slug=global_category_slug)
         categorys = get_products.get_categorys_for_global_category(very_g_category.slug)
         products = []
-        for category in categorys:
-            products_for_category = Product.objects.filter(category=category)
-            products += products_for_category
+        if categorys:
+            for category in categorys:
+                products_for_category = Product.objects.filter(category=category)
+                products += products_for_category
         context = {
                 'products': products,
                 'g_categorys': self.g_categorys,
@@ -223,7 +224,23 @@ class CartOrderedView(GetCurtMixin, View):
 class CreateNewView(GetCurtMixin, View):
 
     def get(self, request):
+        if not request.user.is_staff:
+            return HttpResponseRedirect('/')
+        form_gc = AddGCatForm
+        form_c = AddCatForm
         context = {
             "cart": self.cart,
+            'form_gc': form_gc,
+            'form_c': form_c,
         }
         return render(request, "create_new.html", context)
+
+    def post(self, request):
+        if request.POST.get('global_category'):
+            form = AddCatForm(request.POST)
+        else:
+            form = AddGCatForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return HttpResponseRedirect('/')
+

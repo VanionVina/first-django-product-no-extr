@@ -1,6 +1,29 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
 
-<h1>Y</h1>
+    <h2>Add main category</h2>
+
+    <div>
+        <form method="POST"> 
+            {% csrf_token %}
+            {{ form_gc|crispy }}
+            <button type="submit" class="button btn-success btn-lg">Add</button>
+        </form>
+    </div>
+
+    <hr>
+
+    <h2>Add subcategory</h2>
+
+    <div>
+        <form method="POST"> 
+            {% csrf_token %}
+            {{ form_c|crispy }}
+            <button type="submit" class="button btn-success btn-lg">Add</button>
+        </form>
+    </div>
+
+
 
 {% endblock %}

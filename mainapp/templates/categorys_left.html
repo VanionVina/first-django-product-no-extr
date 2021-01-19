@@ -4,15 +4,17 @@
                 Category's
             </header>
             <div class="panel-body">
+                {% if user.is_staff %}
                 <ul class="nav prod-cat">
                     <li>
-                            <a href="{% url 'create_new' %}"" class="fa fa-angle-right"> + Add new</a>
+                            <a href="{% url 'create_new' %}" class="fa fa-angle-right"> + Add new</a>
                     </li>
                 </ul>
+                {% endif %}
                 <ul class="nav prod-cat">
                     {% for category in g_categorys %}
                     <li>
-                        <a href="{{ category.get_absolute_url }}"><i class="fa fa-angle-right"></i> {{ category.name }}</a>
+                        <a href="{{ category.get_absolute_url }}"><i class="fa fa-angle-right">{{ category.name }}</i></a>
                         {% for sub_category in category.get_relevant_categorys %}
                             <ul class="nav">
                                 <li><a href="{{ sub_category.get_absolute_url }}">{{ sub_category.name }}</a></li>

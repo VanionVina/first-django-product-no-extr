@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import Order
+from .models import Order, GlobalCategory, Category
 
 
 class LoginForm(forms.Form):
@@ -42,3 +42,27 @@ class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
         exclude = ['cart', 'status', 'user']
+
+
+class AddGCatForm(forms.ModelForm):
+
+    class Meta:
+        model = GlobalCategory
+        fields = '__all__'
+
+    def save(self):
+        gcat_name = self.cleaned_data.get('name')
+        GlobalCategory.objects.create(name=gcat_name)
+
+
+class AddCatForm(forms.ModelForm):
+
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+    def save(self):
+        to_cat = self.cleaned_data.get('global_category')
+        name = self.cleaned_data.get('name')
+        Category.objects.create(global_category=to_cat, name=name)
+
